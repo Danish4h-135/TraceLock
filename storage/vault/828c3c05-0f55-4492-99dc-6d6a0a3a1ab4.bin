@@ -1,0 +1,5 @@
+2026-11-18 08:42:15 UTC [POST] /auth/login?session=a7f90e82b - 198.51.100.44 "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 200 OK - Payload: {user: "vp-finance@corporate-gateway.net", action: "harvest"}
+2026-11-18 08:42:29 UTC [POST] /api/harvest - 198.51.100.44 "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 200 OK - MFA Token Captured: 492810
+2026-11-18 08:45:02 UTC [AUTH] Real Corporate Okta Gateway - Login Attempt for vp-finance from 198.51.100.44 (Warsaw, Poland) - MFA Failed (Challenge Expired)
+2026-11-18 08:50:11 UTC [ALERT] CrowdStrike EDR Agent - Host WORKSTATION-FIN-08 isolated from network.
+2026-11-18 09:12:00 UTC [DFIR] Artifact extraction completed by Investigator Sarah Chen.

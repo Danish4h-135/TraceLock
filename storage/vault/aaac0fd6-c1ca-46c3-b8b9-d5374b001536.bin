@@ -1,0 +1,23 @@
+Received: from mailout-relay.attacker-net.org (mailout-relay.attacker-net.org [198.51.100.44])
+	by mx1.corporate-gateway.net with ESMTP id 4Qx8W109mZz8219
+	for <vp-finance@corporate-gateway.net>; Wed, 18 Nov 2026 08:35:12 +0000 (UTC)
+From: "Okta Security Team" <security-alerts@login-okta-securesync.com>
+To: <vp-finance@corporate-gateway.net>
+Subject: URGENT: Mandatory Multi-Factor Authentication (MFA) Re-Authentication
+Date: Wed, 18 Nov 2026 08:35:08 +0000
+Message-ID: <202611180835.SEC99214@mailout-relay.attacker-net.org>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+X-Spam-Flag: YES
+X-Originating-IP: [198.51.100.44]
+
+<!DOCTYPE html>
+<html>
+<body>
+<p>Dear Corporate User,</p>
+<p>An anomalous login attempt was detected against your Okta Single Sign-On account from <strong>Warsaw, Poland</strong>.</p>
+<p>To preserve access to corporate financial systems, you must re-verify your MFA token within 60 minutes:</p>
+<p><a href="https://login-okta-securesync.com/auth/login?session=a7f90e82b">https://login-okta-securesync.com/verify-mfa</a></p>
+<p>Regards,<br>Okta Security Operations</p>
+</body>
+</html>

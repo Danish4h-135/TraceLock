@@ -1,0 +1,25 @@
+{
+  "name": "tracelock-monorepo",
+  "version": "1.0.0",
+  "description": "TraceLock — Secure Evidence. Trusted Investigations. Digital evidence and cybersecurity investigation management platform.",
+  "scripts": {
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "start": "cd server && npm start",
+    "test": "cd server && npm test",
+    "test:e2e": "cd server && npm run test:e2e",
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run dev"
+  },
+  "keywords": [
+    "tracelock",
+    "dfir",
+    "forensics",
+    "evidence-integrity",
+    "chain-of-custody",
+    "cybersecurity",
+    "sha256",
+    "tamper-evident"
+  ],
+  "author": "TraceLock Core Team",
+  "license": "ISC"
+}

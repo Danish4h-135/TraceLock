@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-obsidian-900 text-slate-200 antialiased font-sans selection:bg-slate-700 selection:text-white;
+    background-image: radial-gradient(rgba(51, 65, 85, 0.25) 0.8px, transparent 0.8px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+  }
+
+  /* High-precision DFIR console scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #06080d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+    border: 1px solid #334155;
+    transition: background-color 0.2s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+  }
+}
+
+.mono-field {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Forensic Card Micro-interaction */
+.forensic-card {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.forensic-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(6, 8, 13, 0.8), 0 0 15px -3px rgba(56, 189, 248, 0.12);
+  transform: translateY(-1.5px);
+}
+
+/* Stagger animations for lists */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.10s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.20s; }
+.stagger-5 { animation-delay: 0.25s; }
+
+/* Radar / Laser Scanner line for evidence integrity checks */
+.scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #10b981, transparent);
+  box-shadow: 0 0 8px #38bdf8;
+  animation: scanline 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes scanline {
+  0% { top: 0%; opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0.2; }
+}
+
+/* Cryptographic pulse line for custody chain blocks */
+.chain-link-glow {
+  position: relative;
+}
+.chain-link-glow::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -16px;
+  width: 2px;
+  height: 16px;
+  background: linear-gradient(to bottom, #38bdf8, #334155);
+}
