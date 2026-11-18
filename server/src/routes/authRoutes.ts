@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { authenticateUser, createUser, getAllUsers } from '../services/authService.js';
 import { requireAuth, requireRole, AuthenticatedRequest } from '../middleware/authMiddleware.js';
+import { loginRateLimiter } from '../middleware/rateLimitMiddleware.js';
 
 const router = Router();
 
-// POST /api/auth/login
-router.post('/login', (req, res) => {
+// POST /api/auth/login (with brute-force rate limiting)
+router.post('/login', loginRateLimiter(10, 60 * 1000), (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400).json({ error: 'Email and password are required' });

@@ -10,18 +10,18 @@
 ```
 
 > **Secure Evidence. Trusted Investigations.**  
-> *Enterprise-Grade Digital Forensics & Incident Response (DFIR) Evidence Management Platform*
+> *A cybersecurity investigation and digital evidence management platform providing cryptographic integrity verification, tamper-evident chain-of-custody tracking, and investigation auditability.*
 
 ---
 
 ## 1. Executive Summary & Core Mission
 
-During cyber incident response and digital forensics investigations, digital artifacts—such as disk images, PCAP network captures, phishing emails, malware samples, and system access logs—face serious evidentiary challenges:
+During cyber incident response and digital forensics investigations, digital artifacts—such as disk images, PCAP network captures, phishing emails, malware samples, and system access logs—face serious tracking and integrity challenges:
 
 - **Provenance Failure**: Who acquired the artifact, when, from which machine, and using what tool?
 - **Chain of Custody Breaks**: Who possessed the evidence during analysis, where was it transferred, and can that history be verified?
 - **Silent Tampering**: Has an artifact been altered (accidentally or maliciously) since initial ingestion?
-- **Audit Deficiencies**: Can investigators prove non-repudiation and withstand judicial cross-examination?
+- **Audit Deficiencies**: Can investigators verify who performed actions, track timestamps, and audit evidence history?
 
 **TraceLock** solves these problems through **real mathematical cryptographic proof**:
 
@@ -29,7 +29,9 @@ During cyber incident response and digital forensics investigations, digital art
 2. **Tamper-Evident Chained Custody**: An append-only cryptographic ledger where each custody event signs the hash of the preceding event (`Hash_N = SHA-256(Hash_{N-1} | Sequence | Action | Actor | Time | Details)`).
 3. **Live Re-Hash Auditing**: Performs on-demand bit-level re-verification against stored baseline hashes.
 4. **Untrusted Input Isolation**: Restricts raw forensic evidence to a private vault outside web root with path traversal protection, MIME validation, and non-executable execution protection.
-5. **Court-Ready Forensics Reporting**: Generates official DFIR case dossiers with cryptographic certification seals.
+5. **Investigation Reporting**: Generates structured DFIR case dossiers with cryptographic verification seals.
+
+> **Notice**: TraceLock is designed for educational, academic, and cybersecurity investigation management purposes. Technical reports and cryptographic verification outputs provide technical verification of hashes and custody events; they do not constitute a legal determination of admissibility.
 
 ---
 
@@ -200,7 +202,7 @@ npm run test:e2e
 - `GET /api/cases/:id/evidence` — Evidence inventory
 - `POST /api/evidence/:id/verify` — Live cryptographic file verification
 - `GET /api/evidence/:id/custody/verify-chain` — Mathematical custody chain verification
-- `GET /api/cases/:id/report/html` — Court-ready report rendering
+- `GET /api/cases/:id/report/html` — Investigation dossier HTML report rendering
 - `GET /` — Production frontend bundle delivery
 
 ---

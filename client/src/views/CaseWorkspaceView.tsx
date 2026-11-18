@@ -1142,10 +1142,10 @@ export const CaseWorkspaceView: React.FC<CaseWorkspaceViewProps> = ({ caseId, on
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
-                  Official Forensic Report & Dossier
+                  Investigation Report &amp; Dossier
                 </h2>
                 <p className="text-xs text-slate-500 font-mono mt-0.5">
-                  Court-ready digital forensics report with cryptographic chain certifications.
+                  Comprehensive digital forensics report with cryptographic integrity verification and custody history.
                 </p>
               </div>
               <div className="flex gap-2">
@@ -1225,13 +1225,17 @@ export const CaseWorkspaceView: React.FC<CaseWorkspaceViewProps> = ({ caseId, on
 
               <div className="p-4 rounded border-2 border-dashed border-emerald-800 bg-emerald-950/20 text-xs font-mono">
                 <div className="font-bold text-emerald-400 uppercase mb-1">
-                  Cryptographic Evidence & Chain Integrity Seal
+                  Cryptographic Evidence &amp; Chain Integrity Audit
                 </div>
                 <p className="text-slate-400 text-[11px] leading-relaxed">
                   All evidence items and chained custody events have been verified against TraceLock's sequential SHA-256
                   mathematical ledger. Each historical event block incorporates the cryptographic proof of its predecessor,
-                  preventing silent retroactive modifications.
+                  providing tamper-evident verification.
                 </p>
+              </div>
+
+              <div className="p-3 rounded border border-slate-800 bg-obsidian-900 text-slate-400 text-[11px] leading-relaxed font-mono">
+                <span className="text-slate-300 font-semibold">Notice:</span> This automated report provides technical verification of cryptographic hashes and custody events for academic and investigative documentation. It does not constitute a legal determination of admissibility.
               </div>
             </div>
           </div>

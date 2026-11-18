@@ -8,6 +8,16 @@ import { getAuditLogs } from './auditService.js';
 import { UserSession } from './authService.js';
 import { logAudit } from './auditService.js';
 
+function escapeHtml(str: any): string {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export function generateForensicCaseDossier(caseId: string, actorSession: UserSession) {
   const caseData = getCaseById(caseId);
   if (!caseData) throw new Error('Case not found');
@@ -53,8 +63,9 @@ export function generateForensicCaseDossier(caseId: string, actorSession: UserSe
         badgeNumber: actorSession.badgeNumber,
         organization: actorSession.organization,
       },
-      software: 'TraceLock Forensics Engine v1.0.0',
+      software: 'TraceLock Forensics Platform v1.0.0',
       hashAlgorithm: 'SHA-256 (FIPS 180-4)',
+      disclaimer: 'This automated report provides technical verification of cryptographic hashes and custody events. It does not constitute a legal determination of admissibility.',
     },
     caseData,
     evidenceDossier,
@@ -71,9 +82,9 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
 
   const evidenceRows = dossier.evidenceDossier.map((e) => `
     <tr style="border-bottom: 1px solid #2d3748;">
-      <td style="padding: 10px; font-family: monospace; font-weight: 600;">${e.evidence_number}</td>
-      <td style="padding: 10px; font-weight: 500;">${e.original_filename}<br><small style="color: #a0aec0;">${e.description}</small></td>
-      <td style="padding: 10px; font-family: monospace; font-size: 11px; word-break: break-all; color: #63b3ed;">${e.sha256}</td>
+      <td style="padding: 10px; font-family: monospace; font-weight: 600;">${escapeHtml(e.evidence_number)}</td>
+      <td style="padding: 10px; font-weight: 500;">${escapeHtml(e.original_filename)}<br><small style="color: #a0aec0;">${escapeHtml(e.description)}</small></td>
+      <td style="padding: 10px; font-family: monospace; font-size: 11px; word-break: break-all; color: #63b3ed;">${escapeHtml(e.sha256)}</td>
       <td style="padding: 10px;">${(e.file_size / 1024).toFixed(1)} KB</td>
       <td style="padding: 10px;">
         <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: ${e.chainVerification.status === 'CHAIN_INTEGRITY_VERIFIED' ? '#065f46; color: #34d399;' : '#991b1b; color: #f87171;'}">
@@ -86,23 +97,23 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
   const custodyRows = dossier.evidenceDossier.flatMap((e) =>
     e.custodyEvents.map((evt: any) => `
       <tr style="border-bottom: 1px solid #2d3748; font-size: 12px;">
-        <td style="padding: 8px; font-family: monospace;">${e.evidence_number}</td>
-        <td style="padding: 8px; font-family: monospace;">#${evt.sequence_number}</td>
-        <td style="padding: 8px; font-weight: 600; color: #e2e8f0;">${evt.action}</td>
-        <td style="padding: 8px; color: #cbd5e0;">${evt.actor_name || evt.actor_email}</td>
-        <td style="padding: 8px; color: #a0aec0;">${evt.timestamp}</td>
-        <td style="padding: 8px; font-family: monospace; font-size: 10px; color: #90cdf4; word-break: break-all;">${evt.current_event_hash}</td>
-        <td style="padding: 8px; color: #cbd5e0;">${evt.details}</td>
+        <td style="padding: 8px; font-family: monospace;">${escapeHtml(e.evidence_number)}</td>
+        <td style="padding: 8px; font-family: monospace;">#${escapeHtml(evt.sequence_number)}</td>
+        <td style="padding: 8px; font-weight: 600; color: #e2e8f0;">${escapeHtml(evt.action)}</td>
+        <td style="padding: 8px; color: #cbd5e0;">${escapeHtml(evt.actor_name || evt.actor_email)}</td>
+        <td style="padding: 8px; color: #a0aec0;">${escapeHtml(evt.timestamp)}</td>
+        <td style="padding: 8px; font-family: monospace; font-size: 10px; color: #90cdf4; word-break: break-all;">${escapeHtml(evt.current_event_hash)}</td>
+        <td style="padding: 8px; color: #cbd5e0;">${escapeHtml(evt.details)}</td>
       </tr>
     `)
   ).join('');
 
   const timelineRows = (dossier.timeline as any[]).map((t) => `
     <div style="margin-bottom: 16px; border-left: 3px solid #3182ce; padding-left: 14px;">
-      <div style="font-size: 12px; color: #63b3ed; font-family: monospace;">${t.event_time} &bull; ${t.category}</div>
-      <div style="font-size: 15px; font-weight: 600; color: #edf2f7; margin-top: 2px;">${t.title}</div>
-      <div style="font-size: 13px; color: #cbd5e0; margin-top: 4px;">${t.description}</div>
-      ${t.evidence_number ? `<div style="font-size: 11px; color: #a0aec0; margin-top: 4px; font-family: monospace;">Associated Artifact: ${t.evidence_number} (${t.evidence_filename})</div>` : ''}
+      <div style="font-size: 12px; color: #63b3ed; font-family: monospace;">${escapeHtml(t.event_time)} &bull; ${escapeHtml(t.category)}</div>
+      <div style="font-size: 15px; font-weight: 600; color: #edf2f7; margin-top: 2px;">${escapeHtml(t.title)}</div>
+      <div style="font-size: 13px; color: #cbd5e0; margin-top: 4px;">${escapeHtml(t.description)}</div>
+      ${t.evidence_number ? `<div style="font-size: 11px; color: #a0aec0; margin-top: 4px; font-family: monospace;">Associated Artifact: ${escapeHtml(t.evidence_number)} (${escapeHtml(t.evidence_filename)})</div>` : ''}
     </div>
   `).join('');
 
@@ -116,21 +127,21 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
     return `
       <div style="border: 1px solid #4a5568; background: #1a202c; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <h4 style="margin: 0; font-size: 16px; color: #fff;">${f.title}</h4>
-          <span style="background: ${color}; color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">${f.severity}</span>
+          <h4 style="margin: 0; font-size: 16px; color: #fff;">${escapeHtml(f.title)}</h4>
+          <span style="background: ${color}; color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">${escapeHtml(f.severity)}</span>
         </div>
-        <p style="color: #cbd5e0; font-size: 13px; margin: 8px 0;">${f.description}</p>
-        ${f.remediation ? `<div style="background: #2d3748; padding: 8px 12px; border-radius: 4px; font-size: 12px; color: #68d391; margin-top: 8px;"><strong>Remediation:</strong> ${f.remediation}</div>` : ''}
+        <p style="color: #cbd5e0; font-size: 13px; margin: 8px 0;">${escapeHtml(f.description)}</p>
+        ${f.remediation ? `<div style="background: #2d3748; padding: 8px 12px; border-radius: 4px; font-size: 12px; color: #68d391; margin-top: 8px;"><strong>Remediation:</strong> ${escapeHtml(f.remediation)}</div>` : ''}
       </div>
     `;
   }).join('');
 
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
       <meta charset="utf-8">
-      <title>TraceLock DFIR Report — ${c.case_number}</title>
+      <title>TraceLock Investigation Report — ${escapeHtml(c.case_number)}</title>
       <style>
         body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px; }
         .container { max-width: 1000px; margin: 0 auto; background: #1e293b; padding: 40px; border-radius: 8px; border: 1px solid #334155; }
@@ -144,6 +155,7 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
         th { text-align: left; padding: 10px; background: #0f172a; color: #94a3b8; border-bottom: 1px solid #334155; font-size: 11px; text-transform: uppercase; }
         .seal { border: 2px dashed #059669; padding: 18px; border-radius: 6px; background: rgba(5, 150, 105, 0.08); margin-top: 40px; }
+        .disclaimer-box { margin-top: 20px; padding: 14px; background: #0f172a; border-left: 3px solid #64748b; font-size: 12px; color: #94a3b8; line-height: 1.5; border-radius: 0 4px 4px 0; }
         @media print {
           body { background: #fff; color: #000; padding: 0; }
           .container { border: none; padding: 0; background: #fff; color: #000; }
@@ -152,6 +164,7 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
           th { background: #f1f5f9; color: #333; }
           td { color: #111; }
           .seal { border-color: #000; background: none; }
+          .disclaimer-box { background: #f1f5f9; border-color: #000; color: #333; }
         }
       </style>
     </head>
@@ -159,33 +172,33 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
       <div class="container">
         <div class="header">
           <div>
-            <h1>TRACELOCK FORENSIC INVESTIGATION REPORT</h1>
-            <div class="tagline">Official Digital Evidence Record & Chain-of-Custody Dossier</div>
+            <h1>TRACELOCK INVESTIGATION REPORT</h1>
+            <div class="tagline">Digital Evidence Record &amp; Chain-of-Custody Dossier</div>
           </div>
           <div style="text-align: right; font-family: monospace; font-size: 12px; color: #94a3b8;">
-            <div>CASE REF: <strong style="color: #fff;">${c.case_number}</strong></div>
-            <div>DATE: ${dossier.reportMetadata.generatedAt.split('T')[0]}</div>
+            <div>CASE REF: <strong style="color: #fff;">${escapeHtml(c.case_number)}</strong></div>
+            <div>DATE: ${escapeHtml(dossier.reportMetadata.generatedAt.split('T')[0])}</div>
           </div>
         </div>
 
         <div class="meta-box">
-          <div class="meta-item"><label>Investigation Name</label><value>${c.title}</value></div>
-          <div class="meta-item"><label>Incident Type</label><value>${c.incident_type}</value></div>
-          <div class="meta-item"><label>Priority / Severity</label><value style="color: #f87171;">${c.priority}</value></div>
-          <div class="meta-item"><label>Case Status</label><value>${c.status}</value></div>
-          <div class="meta-item"><label>Lead Investigator</label><value>${c.lead_investigator_name || 'Unassigned'}</value></div>
-          <div class="meta-item"><label>Organization</label><value>${dossier.reportMetadata.generatedBy.organization}</value></div>
-          <div class="meta-item"><label>Reporting Officer</label><value>${dossier.reportMetadata.generatedBy.name} (${dossier.reportMetadata.generatedBy.badgeNumber || 'N/A'})</value></div>
+          <div class="meta-item"><label>Investigation Name</label><value>${escapeHtml(c.title)}</value></div>
+          <div class="meta-item"><label>Incident Type</label><value>${escapeHtml(c.incident_type)}</value></div>
+          <div class="meta-item"><label>Priority / Severity</label><value style="color: #f87171;">${escapeHtml(c.priority)}</value></div>
+          <div class="meta-item"><label>Case Status</label><value>${escapeHtml(c.status)}</value></div>
+          <div class="meta-item"><label>Lead Investigator</label><value>${escapeHtml(c.lead_investigator_name || 'Unassigned')}</value></div>
+          <div class="meta-item"><label>Organization</label><value>${escapeHtml(dossier.reportMetadata.generatedBy.organization || 'Forensic Lab')}</value></div>
+          <div class="meta-item"><label>Reporting Officer</label><value>${escapeHtml(dossier.reportMetadata.generatedBy.name)} (${escapeHtml(dossier.reportMetadata.generatedBy.badgeNumber || 'N/A')})</value></div>
           <div class="meta-item"><label>Evidence Count</label><value>${dossier.evidenceDossier.length} Items Documented</value></div>
         </div>
 
-        <h2>1. Executive Summary & Incident Overview</h2>
+        <h2>1. Executive Summary &amp; Incident Overview</h2>
         <div style="background: #0f172a; padding: 18px; border-radius: 6px; border: 1px solid #334155; line-height: 1.6; color: #cbd5e0; font-size: 14px;">
-          ${c.description}
-          ${c.closure_summary ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;"><strong style="color: #38bdf8;">Closure Resolution:</strong> ${c.closure_summary}</div>` : ''}
+          ${escapeHtml(c.description)}
+          ${c.closure_summary ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;"><strong style="color: #38bdf8;">Closure Resolution:</strong> ${escapeHtml(c.closure_summary)}</div>` : ''}
         </div>
 
-        <h2>2. Digital Evidence Inventory & Cryptographic Baselines</h2>
+        <h2>2. Digital Evidence Inventory &amp; Cryptographic Baselines</h2>
         <table>
           <thead>
             <tr>
@@ -228,23 +241,26 @@ export function generateHtmlForensicReport(caseId: string, actorSession: UserSes
           ${timelineRows || '<p style="color: #64748b;">No timeline entries logged.</p>'}
         </div>
 
-        <h2>5. Investigative Findings & Technical Analysis</h2>
+        <h2>5. Investigative Findings &amp; Technical Analysis</h2>
         <div>
           ${findingsRows || '<p style="color: #64748b;">No formal findings documented.</p>'}
         </div>
 
         <div class="seal">
           <div style="font-weight: 700; color: #34d399; font-size: 14px; margin-bottom: 6px;">
-            CRYPTOGRAPHIC CHAIN INTEGRITY CERTIFICATION
+            CRYPTOGRAPHIC CHAIN INTEGRITY AUDIT
           </div>
           <div style="font-size: 12px; color: #cbd5e0; line-height: 1.5;">
-            This document certifies that the evidence items, custody logs, and cryptographic hashes contained herein 
-            have been audited against TraceLock's immutable SHA-256 chained ledger. Every historical custody event incorporates 
-            the cryptographic proof of its predecessor, guaranteeing tamper-evident traceability and non-repudiation.
+            This section summarizes digital evidence items, custody logs, and cryptographic hashes recorded in TraceLock. 
+            Each custody record is cryptographically linked to its predecessor using SHA-256 hash chaining to provide tamper-evident verification and auditability.
           </div>
           <div style="margin-top: 12px; font-family: monospace; font-size: 11px; color: #94a3b8;">
-            Audit Engine: ${dossier.reportMetadata.software} &bull; Algorithm: ${dossier.reportMetadata.hashAlgorithm} &bull; Verified: ${dossier.reportMetadata.generatedAt}
+            Audit Engine: ${escapeHtml(dossier.reportMetadata.software)} &bull; Algorithm: ${escapeHtml(dossier.reportMetadata.hashAlgorithm)} &bull; Generated: ${escapeHtml(dossier.reportMetadata.generatedAt)}
           </div>
+        </div>
+
+        <div class="disclaimer-box">
+          <strong>Notice:</strong> ${escapeHtml(dossier.reportMetadata.disclaimer)}
         </div>
       </div>
     </body>

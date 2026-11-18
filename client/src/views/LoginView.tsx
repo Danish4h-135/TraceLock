@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Shield, Lock, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Shield, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const LoginView: React.FC = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('investigator@tracelock.sec');
-  const [password, setPassword] = useState('Investigator2026!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +59,7 @@ export const LoginView: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-obsidian-950 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-sky-500 font-mono transition-colors"
-              placeholder="analyst@agency.gov"
+              placeholder="e.g. investigator@tracelock.sec"
             />
           </div>
 
@@ -91,12 +91,15 @@ export const LoginView: React.FC = () => {
           </button>
         </form>
 
-        {/* Quick Demo Credentials */}
+        {/* Development / Evaluation Demo Credentials */}
         <div className="mt-6 pt-5 border-t border-slate-800 text-xs">
-          <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2.5 flex items-center gap-1.5">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-            <span>Select Pre-configured Demo Identity:</span>
+            <span>Development &amp; Academic Demo Credentials:</span>
           </div>
+          <p className="text-[10px] text-slate-500 mb-2.5">
+            Pre-configured for local testing and professor evaluation.
+          </p>
           <div className="space-y-1.5">
             <button
               type="button"
@@ -132,7 +135,7 @@ export const LoginView: React.FC = () => {
               className="w-full text-left p-2 rounded bg-obsidian-950 border border-slate-800 hover:border-slate-700 flex justify-between items-center transition-colors"
             >
               <div>
-                <span className="font-medium text-slate-200">David Ross, Esq.</span>
+                <span className="font-medium text-slate-200">David Ross</span>
                 <span className="text-[10px] text-slate-500 block font-mono">viewer@tracelock.sec</span>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">

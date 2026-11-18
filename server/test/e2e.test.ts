@@ -101,10 +101,10 @@ async function runE2ETest() {
     });
     assert.strictEqual(reportRes.status, 200);
     const htmlReport = await reportRes.text();
-    assert.ok(htmlReport.includes('TRACELOCK FORENSIC INVESTIGATION REPORT'));
+    assert.ok(htmlReport.includes('TRACELOCK INVESTIGATION REPORT'));
     assert.ok(htmlReport.includes(targetCase.case_number));
-    assert.ok(htmlReport.includes('CRYPTOGRAPHIC CHAIN INTEGRITY CERTIFICATION'));
-    console.log('  -> PASS: Formal DFIR Court Report successfully generated and rendered.\n');
+    assert.ok(htmlReport.includes('CRYPTOGRAPHIC CHAIN INTEGRITY AUDIT'));
+    console.log('  -> PASS: Formal Investigation Report successfully generated and rendered.\n');
 
     // 9. Static Frontend Bundle Serving
     console.log('[E2E 9] Testing GET / (Production React Frontend Serving)...');

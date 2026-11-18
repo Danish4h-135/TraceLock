@@ -16,6 +16,17 @@ export function getVaultDir(): string {
   return VAULT_DIR;
 }
 
+/**
+ * Sanitizes untrusted user filenames: removes null bytes, control characters,
+ * path traversal sequences, and caps filename length to 255 chars.
+ */
+export function sanitizeFilename(raw: string): string {
+  if (!raw || typeof raw !== 'string') return 'unnamed_evidence.bin';
+  const base = path.basename(raw).replace(/[\x00-\x1f\x7f\\/]/g, '').trim();
+  const safe = base.replace(/^\.+/, ''); // Prevent hidden file prefix dot traversal
+  return (safe || 'unnamed_evidence.bin').slice(0, 255);
+}
+
 export interface CreateEvidenceParams {
   caseId: string;
   originalFilename: string;
@@ -62,7 +73,7 @@ export async function createEvidenceItem(params: CreateEvidenceParams) {
     evidenceId,
     params.caseId,
     evidenceNumber,
-    path.basename(params.originalFilename),
+    sanitizeFilename(params.originalFilename),
     storedFilename,
     hashes.size,
     params.mimeType || 'application/octet-stream',

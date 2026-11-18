@@ -16,7 +16,7 @@ router.get('/:caseId/report/json', requireAuth, (req: AuthenticatedRequest, res)
   }
 });
 
-// GET /api/cases/:caseId/report/html - Formatted Court-Ready HTML Report
+// GET /api/cases/:caseId/report/html - Formatted Investigation Dossier HTML Report
 router.get('/:caseId/report/html', requireAuth, (req: AuthenticatedRequest, res) => {
   try {
     const caseId = getParam(req.params.caseId);

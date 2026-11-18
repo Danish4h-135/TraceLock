@@ -7,15 +7,17 @@
 ---
 
 ## 1. Executive Summary & Core Mission
-TraceLock is an enterprise-grade digital forensics investigation and evidence management platform built for SOC analysts, DFIR teams, incident response leads, and digital evidence custodians. 
+TraceLock is a cybersecurity investigation and digital evidence management platform providing cryptographic integrity verification, tamper-evident chain-of-custody tracking, and investigation auditability. Built for incident response teams, SOC analysts, and academic cybersecurity environments.
 
 Modern cyber investigations suffer from broken chains of custody, untracked evidence modifications, untrusted file mishandling, and siloed investigative notes. TraceLock solves these problems by providing:
 1. **Mathematical Evidence Integrity**: Real-time SHA-256 cryptographic hashing upon ingestion and on-demand live re-verification against immutable original baselines.
 2. **Cryptographic Tamper-Evident Chain of Custody**: A sequential hash-chained ledger where every custody event cryptographically signs the hash of the preceding event, ensuring retroactive modifications or database tampering are mathematically detectable.
 3. **Immutable System Audit Trail**: Granular, append-only security logs of every user interaction, permission check, evidence access, and case modification.
 4. **Secure Untrusted Artifact Isolation**: High-security evidence vault isolating uploaded artifacts outside the web root, preventing execution, directory traversal, and unauthenticated exfiltration.
-5. **Collaborative DFIR Workspace**: Case management, dynamic attack timeline reconstruction, structured technical findings with CVSS/severity tags, investigator scratchpads, and role-based access control (Admin, Investigator, Viewer).
-6. **Forensic Dossier & Report Engine**: One-click generation of professional executive and court-ready technical investigation reports.
+5. **Collaborative DFIR Workspace**: Case management, dynamic attack timeline reconstruction, structured technical findings with severity tags, investigator scratchpads, and role-based access control (Admin, Investigator, Viewer).
+6. **Forensic Dossier & Report Engine**: One-click generation of structured investigation reports with cryptographic verification seals.
+
+*Disclaimer: This platform provides technical verification of cryptographic hashes and custody events for investigation management. It does not constitute a legal determination of admissibility.*
 
 ---
 
@@ -231,7 +233,7 @@ Modern cyber investigations suffer from broken chains of custody, untracked evid
 4. **Phase 4**: Evidence Vault & Streaming Cryptographic Hashing Engine.
 5. **Phase 5**: Tamper-Evident Custody Chain Engine with Real Cryptographic Verification & Tamper Detection.
 6. **Phase 6**: Case Workspace, Timeline, Findings, Notes API.
-7. **Phase 7**: Comprehensive Forensic Report Generation (Executive & Court-Ready DFIR dossier).
+7. **Phase 7**: Comprehensive Investigation Report Generation (Structured technical DFIR dossier).
 8. **Phase 8**: High-Caliber Frontend UI (React + Vite + Tailwind, SOC Dark Slate aesthetic).
 9. **Phase 9**: Empirical Verification & Testing Suite (Automated API tests, Hash verification tests, Chain tamper tests).
 10. **Phase 10**: Documentation, README, and Deployment Readiness.
